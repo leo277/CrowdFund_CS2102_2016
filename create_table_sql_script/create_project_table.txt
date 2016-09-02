@@ -1,0 +1,8 @@
+Create table project(
+project_id serial not null,
+name VARCHAR(256) PRIMARY KEY,
+description VARCHAR(256),
+start_date date,
+end_date date,
+amount numeric not null default 0.0,
+raised numeric not null default 0.0);
