@@ -1,0 +1,15 @@
+INSERT into project (name,description,start_date,end_date,amount,raised) 
+values
+('books11','funny',null,null,211,11),
+('books12','funny',null,null,211,11),
+('crate23','not funny','2015-1-2','2016-1-2',300,0)
+('books113','funny',null,null,211,11),
+('books123','funny',null,null,211,11),
+('crate223','not funny','2015-1-2','2016-1-2',300,0)
+('books1213','funny',null,null,211,11),
+('books122','funny',null,null,211,11),
+('crate21','not funny','2015-1-2','2016-1-2',300,0)
+('books111','funny',null,null,211,11),
+('books112','funny',null,null,211,11),
+('crate21','not funny','2015-1-2','2016-1-2',300,0)
+;
