@@ -7,9 +7,7 @@
 <?php 
 	require_once(TEMPLATES_PATH . "/navbar.php");
 	require_once(TEMPLATES_PATH . "/portfolio.php");
-	//require_once(TEMPLATES_PATH . "/search.php");
 ?>
-
 
 <?php
 	require_once(TEMPLATES_PATH . "/footer.php");
