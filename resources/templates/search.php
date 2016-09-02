@@ -1,31 +1,37 @@
-    <!-- Search Section -->
-   <!-- Portfolio Grid Section -->
-    <section id="search_bar">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Search bar</h2>
-                    
-                </div>
-            </div>
+<!-- Search Section -->
+<!-- Portfolio Grid Section -->
+<section id="search_bar">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h3>Search bar</h3>
+			</div>
+		</div>
+	</div>
 
-           <table>
-			<tr>
-			<td> 
-				<form method="post">
-					Name: <input type="text" name="name" placeholder="project title">
-					Description: <input type="text" name="description" placeholder="description">
-					Pledged Amount: <input type="number" name="amount" placeholder="pledged amount">
-					Raised Amount: <input type="number" name="raised" placeholder="raised amount">
-					<input type="submit" name="formSubmit" value="Search">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<form class="form-inline" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="project title">
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" name="description" placeholder="description">
+					</div>
+					<div class="form-group">
+						<input type="number" class="form-control" name="amount" placeholder="pledged amount">
+					</div>
+					<div class="form-group">
+						<input type="number" class="form-control" name="raised" placeholder="raised amount">
+					</div>
+					<!-- <input type="submit" name="formSubmit" value="Search"> -->
+					<button type="submit" name="formSubmit" value="Search" class="btn btn-primary">Search</button>
 				</form>
-					</td> 
-				</tr>
-			</table>
-
-        </div>
-    </section>
-
+			</div>
+		</div>
+	</div>
+</section>
 
 <?php 	
 	require_once(INCLUDES_PATH . "/dbconn.php");
