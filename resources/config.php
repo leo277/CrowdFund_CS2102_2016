@@ -9,25 +9,6 @@ defined("TEMPLATES_PATH")
     or define("TEMPLATES_PATH", realpath(dirname(__FILE__) . '/templates'));
 defined("INCLUDES_PATH")
     or define("INCLUDES_PATH", realpath(dirname(__FILE__) . '/includes'));
-/*
-    config file should be included in every page of the project, or those need to access these settings
-    if something changes such as your database credentials, or a path to a specific resource,
-    you'll only need to update it here.
-*/
- 
-// $config = array(
-//     "urls" => array(
-//         "baseUrl" => "http://example.com"
-//     ),
-//     "paths" => array(
-//         "resources" => "/path/to/resources",
-//         "images" => $_SERVER["DOCUMENT_ROOT"] . "/images"
-//         )
-// );
-
-
-
-
 
 /*
     Error reporting.

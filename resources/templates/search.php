@@ -1,5 +1,4 @@
 <!-- Search Section -->
-<!-- Portfolio Grid Section -->
 <section id="search_bar">
 	<div class="container">
 		<div class="row">
@@ -9,6 +8,7 @@
 		</div>
 	</div>
 
+	<!-- Search form template -->
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
@@ -25,7 +25,6 @@
 					<div class="form-group">
 						<input type="number" class="form-control" name="raised" placeholder="raised amount">
 					</div>
-					<!-- <input type="submit" name="formSubmit" value="Search"> -->
 					<button type="submit" name="formSubmit" value="Search" class="btn btn-primary">Search</button>
 				</form>
 			</div>
@@ -33,24 +32,32 @@
 	</div>
 </section>
 
-<?php 	
-	require_once(INCLUDES_PATH . "/dbconn.php");
 
+<?php 
+/************************
+ *establish db connection
+ ************************/	
+require_once(INCLUDES_PATH . "/dbconn.php");
+
+/**********************************************************
+ *check if form is submitted, if yes, start SQL query
+ **********************************************************/	
 if(isset($_POST['formSubmit'])) 
 {
 	$fields = array('name', 'description', 'amount', 'raised');
 	$conditions = array();
 	$query = '';
-    // loop through the defined fields
+	
+	/*********************************
+	 *get all search keywords, if any
+	 *********************************/	
 	foreach($fields as $value){
 
-	// if the field is set and not empty
 		if($_POST[$value] != '') {
-			//echo "hello";
+
 			$query = "SELECT * FROM project ";
-			// create a new condition while escaping the value inputed by the user (SQL Injection)
+			//doing case insensitive search on strings and strict comparison on numbers
 			if(is_numeric($_POST[$value])){
-				//echo "is number";
 				$conditions[] = "$value = " . pg_escape_string($_POST[$value]) . " ";
 			}else{
 				$searchTerm = strtolower($_POST[$value]);
@@ -59,47 +66,89 @@ if(isset($_POST['formSubmit']))
 		}
 	}
 
-	// if there are conditions defined
+	/**************************************************
+	 *append search query if search keywords are found 
+	 **************************************************/
 	if(count($conditions) > 0) {
-		// append the conditions
 		$query .= " WHERE " . implode (' AND ', $conditions); // you can change to 'OR', but I suggest to apply the filters cumulative
 		$query .= " ORDER BY project_id ASC ";
 	}
 
-	//echo "<b>SQL: </b>".$query."<br><br>";
+	/**************************************************
+	 *display SQL query (for testing) 
+	 **************************************************/
+	echo '<div class="container">'; 
+		echo '<div class="row">'; 
+			echo '<div class="col-lg-12 text-center">';
+				echo "<b>SQL: </b>".$query."<br><br>"; 
+			echo "</div>"; 
+		echo "</div>"; 
+	echo "</div>"; 
+
+	/**************************************************
+	 *SQL query validate
+	 **************************************************/
 	$result = pg_query($query) or die('Please enter at least one search term');
 
+
+	/**************************************************
+	 *get SQL query result count
+	 **************************************************/
 	$num_rows = pg_num_rows($result);
-	print("<p><strong>$num_rows </strong> result for '$searchTerm'</p>");
+	echo '<div class="container">'; 
+		echo '<div class="row">'; 
+			echo '<div class="col-lg-12 text-center">';
+				echo "<p><strong>$num_rows </strong> results for '$searchTerm'</p>";
+			echo "</div>"; 
+		echo "</div>"; 
+	echo "</div>"; 
 
-	while ($row = pg_fetch_array($result, null, PGSQL_ASSOC)) {
-		$projectID = $row['project_id'];
-		$name = $row['name'];
-		$description = $row['description'];
-		$amount = $row['amount'];
-		$raised = $row['raised'];
-		$endDate = $row['end_date'];
-		
-		print('<table border="0" cellpadding="10" cellspacing="2" style="border:#000000 solid 1px; background-color:#ffffff;">');
-		print('<tr valign="top">');
-		print('<td class="header">Project ID</td>');
-		print('<td class="header">Project Name</td>');
-		print('<td class="header">Description</td>');
-		print('<td class="header">Total Amount</td>');
-		print('<td class="header">Amount Raised</td>');
-		print('<td class="header">Closing Date</td>');
-		print('</tr>');
+	/**************************************************
+	 *display SQL query result (html formatting)
+	 **************************************************/
+	echo '<div class="container">'; 
+		echo '<div class="row">'; 
+		while ($row = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+			$projectID = $row['project_id'];
+			$name = $row['name'];
+			$description = $row['description'];
+			$amount = $row['amount'];
+			$raised = $row['raised'];
+			$endDate = $row['end_date'];
 
-		print('<tr valign="top">');				
-		print("<td>$projectID</td>");
-		print("<td>$name</td>");
-		print("<td>$description</td>");
-		print("<td>$amount</td>");
-		print("<td>$raised</td>");
-		print("<td> $endDate</td>");
-		print('</tr><br>');
-	} 
-	print('</table>');
+			echo '<table class="table table-hover table-inverse">';
+				echo "<thead>";
+					echo "<tr>";
+					echo "<th>Project ID</th>";
+					echo "<th>Project Name</th>";
+					echo "<th>Description</th>";
+					echo "<th>Total Amount</th>";
+					echo "<th>Amount Raised</th>";
+					echo "<th>Closing Date</th>";
+					echo "</tr>";
+				echo "</thead>";
+
+				echo("<tbody>");
+					echo "<tr>";
+					echo "<td>$projectID</td>";
+					echo "<td>$name</td>";
+					echo "<td>$description</td>";
+					echo "<td>$amount</td>";
+					echo "<td>$raised</td>";
+					echo "<td>$endDate</td>";
+					echo "</tr><br>";
+				echo("</tbody>");
+			echo "</table>";
+		} 
+		echo "</div>"; 
+	echo "</div>"; 
+	/**************************************************
+	 *end html formatting)
+	 **************************************************/
+
+	/**************************************************
+	 *clsoe DB
+	 **************************************************/
 	pg_free_result($result);
 }
 pg_close($dbconn);
